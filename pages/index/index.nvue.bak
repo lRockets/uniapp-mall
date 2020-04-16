@@ -1,0 +1,558 @@
+<template>
+	<div>
+		<sum-tabbar :tabIndex="tabIndex" :tabBars="tabs" @tabchange="tabChange"></sum-tabbar>
+		<slider class="flex-1" :index="tabIndex" :infinite="false" @change="sliderChange">
+			<list :show-scrollbar="false">
+				<refresh class="tui-refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="refreshing ? 'show' : 'hide'">
+					<loading-indicator class="loading"></loading-indicator>
+					<text class="tui-refresh-text" ref="goTop">{{refreshText}}</text>
+				</refresh>
+				<cell>
+					<banner :imageData="imageList"></banner>
+					<div class="row j-sb py-2 m-1 w-100 flex-row flex-wrap">
+						<div class="d-flex flex-column j-center a-center py-1" style="width:142px;" v-for="item in classList" :key="item.text">
+							<image :src="item.src" class="image"></image>
+							<text class="font-sm mt-1">{{item.text}}</text>
+						</div>
+					</div>
+					<div style="height:18px;background-color:#f5f5f5;width:750px;"></div>
+					<div class="d-flex w-100 flex-wrap flex-row">
+						<image src="/static/images/demo/demo1.jpg" style="width:373px;height:530px;margin-right:2px;"></image>
+						<div style="width:375px;height:530px;" class="d-flex j-sb flex-column">
+							<image src="/static/images/demo/demo2.jpg" style="width:100%;height:264px;margin-bottom:2px;"></image>
+							<image src="/static/images/demo/demo3.jpg" style="width:100%;height:264px;"></image>
+						</div>
+					</div>
+					<div style="height:18px;background-color:#f5f5f5;width:750px;"></div>
+					<card title="每日精选" cover="/static/images/demo/demo4.jpg"></card>
+					<commonList :listData="listData"></commonList>
+				</cell>
+
+				<loading class="loading w-100 a-center" @loading="loadData" :display="loadingShow ? 'show' : 'hide'">
+					<text class="font-md">Loading...</text>
+				</loading>	
+			</list>
+			<list v-for="i in tabs.length-1" :key="i">
+				<cell>{{i}}</cell>
+			</list>
+		</slider>
+	</div>
+</template>
+<script>
+	import banner from '@/components/index/banner.nvue';
+	import card from '@/components/common/card.nvue';
+	import sumTabbar from "@/components/index/sum-tabbar.nvue"
+	import commonList from '@/components/index/common-list.nvue';
+	var dom = weex.requireModule('dom');
+	export default {
+		components: {
+			banner,
+			card,
+			commonList,
+			sumTabbar
+		},
+		created() {
+			// console.log( plus.webview.currentWebview())
+			uni.onNavigationBarSearchInputClicked(()=>{
+				uni.navigateTo({
+					url:'../search/search'
+				})
+			})
+		},
+		data() {
+			return {
+				tabIndex: 0,
+				refreshText: '',
+				refreshing: false,
+				loadingShow:false,
+				imageList: [{
+						src: 'https://img.alicdn.com/tps/i4/TB1u.7gzAL0gK0jSZFtSutQCXXa.jpg_q90_.webp'
+					},
+					{
+						src: 'https://img.alicdn.com/simba/img/TB1aIkGtFP7gK0jSZFjSuw5aXXa.jpg'
+					},
+				],
+				tabs: [{
+						name: '关注'
+					},
+					{
+						name: '推荐'
+					},
+					{
+						name: '体育'
+					},
+					{
+						name: '财经'
+					},
+					{
+						name: '娱乐'
+					},
+					{
+						name: '军事'
+					},
+					{
+						name: '搞笑'
+					},
+					{
+						name: '奇葩'
+					},
+				],
+				listData: [{
+						titlepic: '/static/images/demo/list/1.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: null
+					},
+					{
+						titlepic: '/static/images/demo/list/2.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/3.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/4.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/5.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/6.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/1.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/2.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/3.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/4.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/5.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+					{
+						titlepic: '/static/images/demo/list/6.jpg',
+						title: '新品发布',
+						desc: '描述',
+						price: 2000,
+						oprice: 2600
+					},
+				],
+				classList: [{
+						src: '/static/indexnav/1.png',
+						text: '新品发布'
+					},
+					{
+						src: '/static/indexnav/2.gif',
+						text: '小米众筹'
+					},
+					{
+						src: '/static/indexnav/3.gif',
+						text: '以旧换新'
+					},
+					{
+						src: '/static/indexnav/4.gif',
+						text: '1分拼团'
+					},
+					{
+						src: '/static/indexnav/5.gif',
+						text: '超值特卖'
+					},
+					{
+						src: '/static/indexnav/6.gif',
+						text: '小米秒杀'
+					},
+					{
+						src: '/static/indexnav/7.gif',
+						text: '真心想要'
+					},
+					{
+						src: '/static/indexnav/8.gif',
+						text: '电视热卖'
+					},
+					{
+						src: '/static/indexnav/9.gif',
+						text: '家店热卖'
+					},
+					{
+						src: '/static/indexnav/10.gif',
+						text: '米粉卡'
+					}
+				]
+			}
+		},
+		methods: {
+			onrefresh(event) {
+				uni.showToast({
+					title: "refresh",
+					icon: "none"
+				});
+				this.refreshText = "正在刷新...";
+				this.refreshing = true;
+				setTimeout(() => {
+					this.pullrefresh('down');
+				}, 100);
+			},
+			loadData(){
+				this.loadingShow=true;
+				setTimeout(()=>{
+					this.loadingShow=false;
+				},5000)
+			},
+			pullrefresh(){
+				this.refreshing = false;
+			},
+			onpullingdown(event) {
+				if (this.refreshing) {
+					return;
+				}
+				if (Math.abs(event.pullingDistance) > Math.abs(event.viewHeight)) {
+					this.refreshText = "释放立即刷新";
+				} else {
+					this.refreshText = "下拉可以刷新";
+				}
+			},
+			addData() {
+
+			},
+			sliderChange(e) {
+				this.tabChange(e.index);
+			},
+			tabChange(index) {
+				this.tabIndex = index;
+				// 加载数据
+				this.addData();
+			}
+		}
+	}
+</script>
+<style src="@/common/zcm-main-nvue.css"></style>
+
+
+<style>
+	.image {
+		width: 60px;
+		height: 60px;
+	}
+	.titleNdiv {
+		background-color: #FFFFFF
+	}
+
+	.searchbar {
+		height: 44wx;
+		width: 750px;
+		background-color: #FFFFFF;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #E7E7E7;
+		flex-direction: row;
+		align-items: center;
+		padding-left: 30px;
+	}
+
+	.search-input {
+		width: 600px;
+		height: 60px;
+		background-color: #F0F0F0;
+		border-radius: 6px;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.search-tips {
+		font-size: 28px;
+		font-family: PingFang-SC-Regular;
+		font-weight: 400;
+		color: #999999;
+	}
+
+	.image-search {
+		width: 26px;
+		height: 26px;
+		margin-right: 20px;
+	}
+
+	.shopcart-box {
+		width: 56px;
+		height: 56px;
+		position: relative;
+		margin-left: 34px;
+		opacity: 1;
+	}
+
+	.shopcart-box:active {
+		opacity: 0.6;
+	}
+
+	.badge {
+		position: absolute;
+		padding-left: 10px;
+		padding-right: 10px;
+		height: 36px;
+		line-height: 36px;
+		background-color: #FA3A3A;
+		border-radius: 20px;
+		left: 26px;
+		top: -8px;
+		text-align: center;
+		color: #FFFFFF;
+		font-size: 24px;
+	}
+
+	.image-cart {
+		width: 56px;
+		height: 56px;
+	}
+
+	/* 	.mall-box {
+		
+	} */
+
+	/* product */
+
+	.tui-product-list {
+		width: 750px;
+	}
+
+	.tui-product {
+		width: 340px;
+		height: 528px;
+		margin-top: 10px;
+		background-color: #FFFFFF;
+		border-width: 1px;
+		border-style: solid;
+		border-color: #eaeef1;
+	}
+
+	.tui-mtop {
+		margin-top: 30px;
+	}
+
+	.tui-product:active {
+		background-color: #eeeeee
+	}
+
+	.image-div {
+		height: 338px;
+		width: 338px;
+		position: relative
+	}
+
+	.none {
+		height: 338px;
+		width: 338px;
+		position: absolute;
+		background-color: rgba(0, 0, 0, 0.8);
+		align-items: center;
+		justify-content: center;
+		left: 0;
+		top: 0;
+	}
+
+	.none-tip {
+		font-size: 28px;
+		color: #FA3A3A;
+	}
+
+	.tui-product-image {
+		height: 338px;
+		width: 338px;
+		position: absolute;
+	}
+
+	.product-content-box {
+		width: 338px;
+		height: 190px;
+		padding-top: 30px;
+		padding-left: 20px;
+		padding-right: 20px;
+		position: relative;
+	}
+
+	.tui-product-title {
+		width: 295px;
+	}
+
+	.product-title {
+		width: 295px;
+		font-size: 26px;
+		font-family: PingFang-SC-Regular;
+		font-weight: 400;
+		color: #333333;
+		line-height: 38px;
+		/* word-break: break-all; */
+		lines: 2;
+		text-overflow: ellipsis
+	}
+
+	.tui-product-price {
+		position: absolute;
+		bottom: 20px;
+		width: 295px;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		overflow: hidden
+	}
+
+	.tui-product-price-original {
+		font-size: 34px;
+		font-weight: 500;
+		color: #ea1500;
+		font-weight: bold;
+	}
+
+	.tui-product-price-favour {
+		color: #a0a0a0;
+		text-decoration: line-through;
+		font-size: 24px;
+		font-weight: 400;
+		text-align: right;
+	}
+
+	.loading {
+		margin-right: 15px;
+		height: 60px;
+		width: 60px;
+		color: #999999;
+	}
+
+	.list {
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #E6E6E6;
+	}
+
+	.active {
+		color: #3097FF;
+		font-size: 32px;
+		font-weight: bold;
+		border-bottom-width: 4px;
+		border-style: solid;
+		border-color: #3097FF;
+		width: 120px;
+		text-align: center;
+	}
+
+	.loadmore {
+		height: 100px;
+		width: 750px;
+		flex-direction: column;
+		justify-content: center;
+		position: relative;
+		align-items: center;
+	}
+
+	.loadmore-text {
+		font-size: 26px;
+		text-align: center;
+		color: #999999;
+
+		padding-left: 6px;
+		padding-right: 6px;
+	}
+
+	.tui-gray {
+		background-color: #fafafa;
+	}
+
+	.tui-white {
+		background-color: #ffffff;
+	}
+
+	.loadmore-line {
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #e5e5e5;
+		width: 320px;
+		position: absolute;
+		z-index: -1;
+	}
+
+	.tui-refresh {
+		width: 750px;
+		height: 80px;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.tui-refresh-text {
+		text-align: center;
+		font-size: 26px;
+		color: #999999;
+	}
+
+	.ios-arrow {
+		color: #999999;
+		font-size: 42px;
+		font-weight: 300;
+		padding-right: 20px;
+		margin-left: -75px;
+	}
+
+	.fixedItem {
+		position: fixed;
+		width: 78px;
+		height: 78px;
+		background-color: #00cc99;
+		right: 32px;
+		bottom: 50px;
+		border-radius: 39px;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.fixedText {
+		font-size: 32px;
+		color: white;
+		line-height: 32px;
+	}
+</style>
+
+

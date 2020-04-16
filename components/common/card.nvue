@@ -1,0 +1,39 @@
+<template>
+	<div class="card">
+		<div v-if="cardHead" class="p-2 border-bottom main-border-color">
+			<text class="font-md font-weight">{{title}}</text>
+		</div>
+		<div>
+			<image v-if="cover" :src="cover" class="w-100"></image>
+			<slot></slot>
+		</div>
+	</div>
+</template>
+
+<script>
+	export default {
+		props:{
+			cardHead:{
+				type:Boolean,
+				default:true
+			},
+			title:{
+				type:String,
+				default:''
+			},
+			cover:{
+				type:String,
+				default:''
+			}
+		},
+		data() {
+			return {
+				
+			};
+		}
+	}
+</script>
+<style src="@/common/zcm-main-nvue.css"></style>
+<style>
+
+</style>

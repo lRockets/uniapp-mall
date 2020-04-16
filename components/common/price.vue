@@ -1,0 +1,17 @@
+<template>
+	<div>
+		<div class="flex-row">
+			<text class="font" style="color: #FD6801;">￥</text>
+			<text style="color: #FD6801;font-size: 32upx;"><slot /></text>
+		</div>
+	</div>
+</template>
+
+<script>
+	export default {
+		
+	}
+</script>
+<style>
+
+</style>

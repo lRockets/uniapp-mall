@@ -1,0 +1,78 @@
+<template>
+	<div class="flex-wrap w-100 flex-row">
+		<div class="common-list" @click="openDetail"  v-for="item in listData" :key="item.id">
+			<image class="common-list-image" :src="item.titlepic"></image>
+			<text class="common-list-title">{{item.title}}</text>
+			<text class="common-list-desc font">{{item.desc}}</text>
+			<div class="common-list-price">
+				<price>{{item.price}}</price>
+				<text class="common-list-oprice font-sm a-self-end" v-if="item.oprice">￥{{item.oprice}}</text>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	import price from '@/components/common/price.nvue';
+	export default {
+		components:{price},
+		props: {
+			listData: Array
+		},
+		methods: {
+			openDetail() {
+				uni.navigateTo({
+					url: '../../pages/detail/detail'
+				});
+			}
+		},
+	}
+</script>
+<style src="@/common/zcm-main-nvue.css"></style>
+<style scoped>
+	.common-list{
+		width: 375px;
+		border-width:2.5px;
+		border-color: #FFFFFF;
+	}
+	.common-list-image{
+		width: 370px;
+		height: 370px;
+	}
+	.common-list-title{
+		lines: 1;
+		font-size: 30px;
+		margin-top: 20px;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	.common-list-desc{
+		lines: 1;
+		color: #BBBBBB;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	.common-list-price{
+		flex-direction: row;
+		align-items: flex-end;
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-bottom: 20px;
+	}
+	.common-list-pprice-before{
+		font-size: 20px;
+		color: #DE5F0E;
+		/* align-self: flex-start; */
+	}
+	.common-list-pprice{
+		color: #DE5F0E;
+		font-size: 32px;
+	}
+	.common-list-oprice{
+		color: #BBBBBB;
+		text-decoration: line-through;
+		margin-left: 15px;
+	}
+</style>

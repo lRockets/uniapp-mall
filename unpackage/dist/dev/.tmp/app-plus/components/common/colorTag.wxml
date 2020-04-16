@@ -1,0 +1,1 @@
+<view><block wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="px-2 py-1 border d-inline-block m-1" style="{{'background-color:'+(background[index%borderColor.length])+';'+('border-color:'+(borderColor[index%borderColor.length])+';')}}">{{''+item.name+''}}</view></block></view>

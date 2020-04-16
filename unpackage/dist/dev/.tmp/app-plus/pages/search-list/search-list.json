@@ -1,0 +1,27 @@
+{
+  "enablePullDownRefresh": true,
+  "titleNView": {
+    "searchInput": {
+      "align": "left",
+      "backgroundColor": "#f7f7f7",
+      "borderRadius": "4px",
+      "autoFocus": false,
+      "placeholder": "请输入搜索内容",
+      "placeholderColor": "#cccccc",
+      "disabled": false
+    },
+    "buttons": [
+      {
+        "color": "#989898",
+        "colorPressed": "#FD6801",
+        "float": "right",
+        "fontSize": "16px",
+        "fontSrc": "/static/font/iconfont.ttf",
+        "text": "搜索"
+      }
+    ]
+  },
+  "usingComponents": {
+    "uni-drawer": "/components/uni-ui/uni-drawer/uni-drawer"
+  }
+}

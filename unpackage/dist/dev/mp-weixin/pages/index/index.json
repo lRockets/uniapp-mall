@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "banner": "/components/index/banner",
+    "card": "/components/card",
+    "common-list": "/components/common-list"
+  }
+}
